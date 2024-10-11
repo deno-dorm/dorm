@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "workspace": [
+    "./core",
+    "./postgresql"
+  ],
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
