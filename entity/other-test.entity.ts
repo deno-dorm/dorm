@@ -1,7 +1,7 @@
-import {Entity, Property, PrimaryKey} from "@dorm/core";
+import {Entity, PrimaryKey, Property} from "@dorm/core";
 
 @Entity({tableName: 'test'})
-export class TestEntity {
+export class OtherTestEntity {
 
     @PrimaryKey()
     id!: number;

@@ -2,7 +2,6 @@
   "name": "@dorm/postgresql",
   "version": "0.0.1",
   "imports": {
-    "@mikro-orm/knex": "npm:@mikro-orm/knex@^6.3.13",
     "pg": "npm:pg",
     "postgres-array": "npm:postgres-array",
     "postgres-date": "npm:postgres-date",

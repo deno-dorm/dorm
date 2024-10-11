@@ -11,7 +11,7 @@ import {
   type Knex,
   type Table,
   type TableDifference,
-} from '@mikro-orm/knex';
+} from '@dorm/knex';
 
 export class PostgreSqlSchemaHelper extends SchemaHelper {
 

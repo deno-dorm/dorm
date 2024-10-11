@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-export * from '@mikro-orm/knex';
+export * from '@dorm/knex';
 export * from './PostgreSqlConnection.ts';
 export * from './PostgreSqlDriver.ts';
 export * from './PostgreSqlPlatform.ts';

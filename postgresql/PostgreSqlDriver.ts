@@ -1,5 +1,5 @@
 import type { Configuration } from '@dorm/core';
-import { AbstractSqlDriver } from '@mikro-orm/knex';
+import { AbstractSqlDriver } from '@dorm/knex';
 import { PostgreSqlConnection } from './PostgreSqlConnection.ts';
 import { PostgreSqlPlatform } from './PostgreSqlPlatform.ts';
 

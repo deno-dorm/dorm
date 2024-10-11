@@ -10,7 +10,7 @@ import {
   type Dictionary,
   type Configuration,
 } from '@dorm/core';
-import { AbstractSqlPlatform, type IndexDef } from '@mikro-orm/knex';
+import { AbstractSqlPlatform, type IndexDef } from '@dorm/knex';
 import { PostgreSqlSchemaHelper } from './PostgreSqlSchemaHelper.ts';
 import { PostgreSqlExceptionConverter } from './PostgreSqlExceptionConverter.ts';
 import { FullTextType } from './types/FullTextType.ts';

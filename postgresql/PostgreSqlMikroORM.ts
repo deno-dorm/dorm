@@ -7,7 +7,7 @@ import {
   type EntityManagerType,
 } from '@dorm/core';
 import { PostgreSqlDriver } from './PostgreSqlDriver.ts';
-import type { SqlEntityManager } from '@mikro-orm/knex';
+import type { SqlEntityManager } from '@dorm/knex';
 
 /**
  * @inheritDoc

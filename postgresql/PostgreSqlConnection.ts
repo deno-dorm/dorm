@@ -1,6 +1,6 @@
 import TypeOverrides from 'pg/lib/type-overrides.js';
 import array from 'postgres-array';
-import { AbstractSqlConnection, type Knex, PostgreSqlKnexDialect } from '@mikro-orm/knex';
+import { AbstractSqlConnection, type Knex, PostgreSqlKnexDialect } from '@dorm/knex';
 
 export class PostgreSqlConnection extends AbstractSqlConnection {
 

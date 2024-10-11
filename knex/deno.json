@@ -1,0 +1,10 @@
+{
+  "name": "@dorm/knex",
+  "version": "0.0.1",
+  "imports": {
+    "knex": "npm:knex@^3.1.0",
+    "sqlstring": "npm:sqlstring@^2.3.3",
+    "@std/fs": "jsr:@std/fs@1.0.4"
+  },
+  "exports": "./mod.ts"
+}

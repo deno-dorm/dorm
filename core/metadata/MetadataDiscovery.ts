@@ -197,50 +197,6 @@ export class MetadataDiscovery {
     }
   }
 
-  private async discoverDirectories(paths: string[]): Promise<void> {
-    paths = paths.map(path => Utils.normalizePath(path));
-    const files = await globby(paths, { cwd: Utils.normalizePath(this.config.get('baseDir')) });
-    this.logger.log('discovery', `- processing ${colors.cyan('' + files.length)} files`);
-    const found: [EntitySchema, string][] = [];
-
-    for (const filepath of files) {
-      const filename = basename(filepath);
-
-      if (
-        !filename.match(/\.[cm]?[jt]s$/) ||
-        filename.endsWith('.js.map') ||
-        filename.match(/\.d\.[cm]?ts/) ||
-        filename.startsWith('.') ||
-        filename.match(/index\.[cm]?[jt]s$/)
-      ) {
-        this.logger.log('discovery', `- ignoring file ${filename}`);
-        continue;
-      }
-
-      const name = this.namingStrategy.getClassName(filename);
-      const path = Utils.normalizePath(this.config.get('baseDir'), filepath);
-      const targets = await this.getEntityClassOrSchema(path, name);
-
-      for (const target of targets) {
-        if (!(target instanceof Function) && !(target instanceof EntitySchema)) {
-          this.logger.log('discovery', `- ignoring file ${filename}`);
-          continue;
-        }
-
-        const entity = this.prepare(target) as Constructor<AnyEntity>;
-        const schema = this.getSchema(entity, path);
-        const meta = schema.init().meta;
-        this.metadata.set(meta.className, meta);
-
-        found.push([schema, path]);
-      }
-    }
-
-    for (const [schema, path] of found) {
-      this.discoverEntity(schema, path);
-    }
-  }
-
   discoverReferences<T>(refs: (Constructor<T> | EntitySchema<T>)[]): EntityMetadata<T>[] {
     const found: EntitySchema[] = [];
 
@@ -331,6 +287,7 @@ export class MetadataDiscovery {
     const meta = schema.meta;
     const root = Utils.getRootEntity(this.metadata, meta);
     schema.meta.path = Utils.relativePath(path || meta.path, this.config.get('baseDir'));
+    console.log(meta);
 
     // infer default value from property initializer early, as the metadata provider might use some defaults, e.g. string for reflect-metadata
     for (const prop of meta.props) {
