@@ -2,9 +2,13 @@ import {defineConfig, Configuration, Entity, PrimaryKey} from '@dorm/core';
 import {PostgreSqlDriver} from '@dorm/postgresql';
 import {MikroORM} from "./postgresql/mod.ts";
 import {Property} from "./core/decorators/index.ts";
+import { TestEntity } from "./entity/test.entity.ts";
 
-@Entity({tableName: 'test'})
-class TestEntity {
+
+
+
+@Entity({tableName: 'test2'})
+class Test2Entity {
 
     @PrimaryKey()
     id!: number;

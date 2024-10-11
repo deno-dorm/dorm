@@ -1,4 +1,4 @@
-import type { CacheAdapter } from './CacheAdapter';
+import type { CacheAdapter } from './CacheAdapter.ts';
 
 export class MemoryCacheAdapter implements CacheAdapter {
 

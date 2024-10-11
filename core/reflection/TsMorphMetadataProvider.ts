@@ -28,13 +28,7 @@ export class TsMorphMetadataProvider extends MetadataProvider {
   }
 
   getExistingSourceFile(path: string, ext?: string, validate = true): SourceFile {
-    if (!ext) {
-      return this.getExistingSourceFile(path, '.d.ts', false) || this.getExistingSourceFile(path, '.ts');
-    }
-
-    const tsPath = path.match(/.*\/[^/]+$/)![0].replace(/\.js$/, ext);
-
-    return this.getSourceFile(tsPath, validate)!;
+    return this.getSourceFile(path, validate)!;
   }
 
   protected initProperties(meta: EntityMetadata): void {
@@ -164,16 +158,12 @@ export class TsMorphMetadataProvider extends MetadataProvider {
       this.initSourceFiles();
     }
 
-    const baseDir = this.config.get('baseDir');
-    const outDir = this.project.getCompilerOptions().outDir;
+    console.log(this.sources);
+
     let path = tsPath;
 
-    if (outDir != null) {
-      const outDirRelative = Utils.relativePath(outDir, baseDir);
-      path = path.replace(new RegExp(`^${outDirRelative}`), '');
-    }
-
     path = Utils.stripRelativePath(path);
+    console.log('filter', this.sources, path)
     const source = this.sources.find(s => s.getFilePath().endsWith(path));
 
     if (!source && validate) {
@@ -207,25 +197,12 @@ export class TsMorphMetadataProvider extends MetadataProvider {
 
   private initProject(): void {
     const settings = ConfigurationLoader.getSettings();
-    /* istanbul ignore next */
-    const tsConfigFilePath = this.config.get('discovery').tsConfigPath ?? settings.tsConfigPath ?? './tsconfig.json';
 
     try {
-      this.project = new Project({
-        tsConfigFilePath: Utils.normalizePath(Deno.cwd(), tsConfigFilePath),
-        compilerOptions: {
-          strictNullChecks: true,
-          module: ModuleKind.Node16,
-        },
-      });
+      this.project = new Project();
     } catch (e: any) {
       this.config.getLogger().warn('discovery', e.message);
-      this.project = new Project({
-        compilerOptions: {
-          strictNullChecks: true,
-          module: ModuleKind.Node16,
-        },
-      });
+      this.project = new Project();
     }
   }
 
@@ -234,15 +211,18 @@ export class TsMorphMetadataProvider extends MetadataProvider {
       this.initProject();
     }
 
-    // All entity files are first required during the discovery, before we reach here, so it is safe to get the parts from the global
-    // metadata storage. We know the path thanks the decorators being executed. In case we are running via ts-node, the extension
-    // will be already `.ts`, so no change needed. `.js` files will get renamed to `.d.ts` files as they will be used as a source for
-    // the ts-morph reflection.
     /* istanbul ignore next */
-    const paths = Object.values(MetadataStorage.getMetadata()).map(m => m.path.match(/\.[jt]s$/)
-      ? m.path.replace(/\.js$/, '.d.ts')
-      : `${m.path}.d.ts`); // when entities are bundled, their paths are just their names
-    this.sources = this.project.addSourceFilesAtPaths(paths);
+    const paths = Object.values(MetadataStorage.getMetadata())
+        .map(m => m.path);
+
+    console.log('result', this.project.addSourceFilesAtPaths(paths));
+
+    const sources = [];
+    for (const path of paths) {
+      sources.push(this.project.addSourceFileAtPath(paths[0]));
+    }
+
+    this.sources = sources;
   }
 
 }

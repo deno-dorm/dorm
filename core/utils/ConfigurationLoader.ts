@@ -111,7 +111,6 @@ export class ConfigurationLoader {
     read(ret, 'MIKRO_ORM_BASE_DIR', 'baseDir');
     read(ret, 'MIKRO_ORM_TYPE', 'driver', driver);
     read(ret, 'MIKRO_ORM_ENTITIES', 'entities', array);
-    read(ret, 'MIKRO_ORM_ENTITIES_TS', 'entitiesTs', array);
     read(ret, 'MIKRO_ORM_CLIENT_URL', 'clientUrl');
     read(ret, 'MIKRO_ORM_HOST', 'host');
     read(ret, 'MIKRO_ORM_PORT', 'port', num);
