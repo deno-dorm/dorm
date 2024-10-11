@@ -41,14 +41,13 @@ import { MemoryCacheAdapter } from '../cache/MemoryCacheAdapter.ts';
 import { EntityComparator } from './EntityComparator.ts';
 import type { Type } from '../types/Type.ts';
 import type { MikroORM } from '../MikroORM.ts';
-import {TsMorphMetadataProvider} from "../reflection/src/index.ts";
+import { TsMorphMetadataProvider } from "../reflection/TsMorphMetadataProvider.ts";
 
 export class Configuration<D extends IDatabaseDriver = IDatabaseDriver, EM extends EntityManager = D[typeof EntityManagerType] & EntityManager> {
 
-  static readonly DEFAULTS = {
+  static readonly DEFAULTS: MikroORMOptions = {
     pool: {},
     entities: [],
-    entitiesTs: [],
     extensions: [],
     subscribers: [],
     filters: {},
@@ -531,7 +530,6 @@ export interface MetadataDiscoveryOptions {
 
 export interface MikroORMOptions<D extends IDatabaseDriver = IDatabaseDriver, EM extends EntityManager = EntityManager> extends ConnectionOptions {
   entities: (string | EntityClass<AnyEntity> | EntityClassGroup<AnyEntity> | EntitySchema)[]; // `any` required here for some TS weirdness
-  entitiesTs: (string | EntityClass<AnyEntity> | EntityClassGroup<AnyEntity> | EntitySchema)[]; // `any` required here for some TS weirdness
   extensions: { register: (orm: MikroORM) => void }[];
   subscribers: (EventSubscriber | Constructor<EventSubscriber>)[];
   filters: Dictionary<{ name?: string } & Omit<FilterDef, 'name'>>;

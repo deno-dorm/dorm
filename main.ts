@@ -1,14 +1,21 @@
 import {defineConfig, Configuration} from '@dorm/core';
-import {PostgreSqlDriver} from '@dorm/postgresql';
+import {PostgreSqlDriver, Entity} from '@dorm/postgresql';
 
 export function add(a: number, b: number): number {
     return a + b;
 }
 
+@Entity()
+class TestEntity {
+}
+
 const config = defineConfig({
     debug: true,
-    driver: new Error(),
+    driver: PostgreSqlDriver,
+    dbName: 'test',
+    entities: [TestEntity]
 });
+
 
 const configObj = new Configuration(config);
 

@@ -6,8 +6,9 @@ import {
   Utils,
   type EntityMetadata,
   type EntityProperty,
-  ConfigurationLoader, MetadataProvider,
-} from '../../mod.ts';
+  ConfigurationLoader,
+} from '../mod.ts';
+import {MetadataProvider} from '../metadata/MetadataProvider.ts'
 
 export class TsMorphMetadataProvider extends MetadataProvider {
 

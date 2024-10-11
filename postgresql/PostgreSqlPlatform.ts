@@ -1,4 +1,3 @@
-import { Client } from 'pg';
 import parseDate from 'postgres-date';
 import PostgresInterval, { type IPostgresInterval } from 'postgres-interval';
 import {
@@ -325,6 +324,7 @@ export class PostgreSqlPlatform extends AbstractSqlPlatform {
 
   override escape(value: any): string {
     if (typeof value === 'string') {
+      // TODO: Figure out this
       return Client.prototype.escapeLiteral(value);
     }
 

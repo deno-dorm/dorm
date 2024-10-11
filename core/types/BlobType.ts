@@ -1,4 +1,5 @@
 import { Uint8ArrayType } from './Uint8ArrayType.ts';
+import {Buffer} from 'node:buffer';
 import type { Platform } from '../platforms/mod.ts';
 import type { EntityProperty } from '../typings.ts';
 
