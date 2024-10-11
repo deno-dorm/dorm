@@ -219,7 +219,7 @@ export class TsMorphMetadataProvider extends MetadataProvider {
 
     const sources = [];
     for (const path of paths) {
-      sources.push(this.project.addSourceFileAtPath(paths[0]));
+      sources.push(this.project.addSourceFileAtPath(path));
     }
 
     this.sources = sources;
