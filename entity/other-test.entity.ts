@@ -1,6 +1,6 @@
 import {Entity, PrimaryKey, Property} from "@dorm/core";
 
-@Entity({tableName: 'test'})
+@Entity({tableName: 'test2'})
 export class OtherTestEntity {
 
     @PrimaryKey()

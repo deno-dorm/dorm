@@ -1,4 +1,4 @@
-import { ModuleKind, Project, type PropertyDeclaration, type SourceFile } from 'ts-morph';
+import { Project, type PropertyDeclaration, type SourceFile } from 'ts-morph';
 import {
   MetadataError,
   MetadataStorage,
@@ -6,7 +6,6 @@ import {
   Utils,
   type EntityMetadata,
   type EntityProperty,
-  ConfigurationLoader,
 } from '../mod.ts';
 import {MetadataProvider} from '../metadata/MetadataProvider.ts'
 
@@ -27,7 +26,7 @@ export class TsMorphMetadataProvider extends MetadataProvider {
     this.initProperties(meta);
   }
 
-  getExistingSourceFile(path: string, ext?: string, validate = true): SourceFile {
+  getExistingSourceFile(path: string, validate = true): SourceFile {
     return this.getSourceFile(path, validate)!;
   }
 
@@ -153,18 +152,16 @@ export class TsMorphMetadataProvider extends MetadataProvider {
     return { type, optional };
   }
 
-  private getSourceFile(tsPath: string, validate: boolean): SourceFile | undefined {
+  private getSourceFile(path: string, validate: boolean): SourceFile | undefined {
     if (!this.sources) {
       this.initSourceFiles();
     }
-
-    let path = tsPath;
 
     path = Utils.stripRelativePath(path);
     const source = this.sources.find(s => s.getFilePath().endsWith(path));
 
     if (!source && validate) {
-      throw new MetadataError(`Source file '${tsPath}' not found. Check your 'entitiesTs' option and verify you have 'compilerOptions.declaration' enabled in your 'tsconfig.json'. If you are using webpack, see https://bit.ly/35pPDNn`);
+      throw new MetadataError(`Source file '${path}' not found. Check your 'entities' option and verify you have 'compilerOptions.declaration' enabled in your 'tsconfig.json'. If you are using webpack, see https://bit.ly/35pPDNn`);
     }
 
     return source;
@@ -193,8 +190,6 @@ export class TsMorphMetadataProvider extends MetadataProvider {
   }
 
   private initProject(): void {
-    const settings = ConfigurationLoader.getSettings();
-
     try {
       this.project = new Project();
     } catch (e: any) {
@@ -208,7 +203,6 @@ export class TsMorphMetadataProvider extends MetadataProvider {
       this.initProject();
     }
 
-    /* istanbul ignore next */
     const paths = Object.values(MetadataStorage.getMetadata())
         .map(m => m.path);
 

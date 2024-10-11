@@ -1,6 +1,3 @@
-import { basename } from 'node:path';
-import globby from 'globby';
-
 import {
   type AnyEntity,
   type Constructor,
@@ -10,16 +7,16 @@ import {
   EntityMetadata,
   type EntityProperty,
 } from '../typings.ts';
-import { Utils } from '../utils/Utils.ts';
-import type { Configuration } from '../utils/Configuration.ts';
-import { MetadataValidator } from './MetadataValidator.ts';
-import type { MetadataProvider } from './MetadataProvider.ts';
-import type { NamingStrategy } from '../naming-strategy/NamingStrategy.ts';
-import { MetadataStorage } from './MetadataStorage.ts';
-import { EntitySchema } from './EntitySchema.ts';
-import { Cascade, type EventType, ReferenceKind } from '../enums.ts';
-import { MetadataError } from '../errors.ts';
-import type { Platform } from '../platforms/mod.ts';
+import {Utils} from '../utils/Utils.ts';
+import type {Configuration} from '../utils/Configuration.ts';
+import {MetadataValidator} from './MetadataValidator.ts';
+import type {MetadataProvider} from './MetadataProvider.ts';
+import type {NamingStrategy} from '../naming-strategy/NamingStrategy.ts';
+import {MetadataStorage} from './MetadataStorage.ts';
+import {EntitySchema} from './EntitySchema.ts';
+import {Cascade, type EventType, ReferenceKind} from '../enums.ts';
+import {MetadataError} from '../errors.ts';
+import type {Platform} from '../platforms/mod.ts';
 import {
   ArrayType,
   BigIntType,
@@ -34,9 +31,9 @@ import {
   Uint8ArrayType,
   UnknownType,
 } from '../types/mod.ts';
-import { colors } from '../logging/colors.ts';
-import { raw, RawQueryFragment } from '../utils/RawQueryFragment.ts';
-import type { Logger } from '../logging/Logger.ts';
+import {colors} from '../logging/colors.ts';
+import {raw, RawQueryFragment} from '../utils/RawQueryFragment.ts';
+import type {Logger} from '../logging/Logger.ts';
 
 export class MetadataDiscovery {
 
@@ -70,10 +67,7 @@ export class MetadataDiscovery {
     const diff = Date.now() - startTime;
     this.logger.log('discovery', `- entity discovery finished, found ${colors.green('' + this.discovered.length)} entities, took ${colors.green(`${diff} ms`)}`);
 
-    const storage = this.mapDiscoveredEntities();
-    await this.config.get('discovery').afterDiscovered?.(storage, this.platform);
-
-    return storage;
+    return this.mapDiscoveredEntities();
   }
 
 
@@ -287,7 +281,6 @@ export class MetadataDiscovery {
     const meta = schema.meta;
     const root = Utils.getRootEntity(this.metadata, meta);
     schema.meta.path = Utils.relativePath(path || meta.path, this.config.get('baseDir'));
-    console.log(meta);
 
     // infer default value from property initializer early, as the metadata provider might use some defaults, e.g. string for reflect-metadata
     for (const prop of meta.props) {

@@ -28,6 +28,7 @@ const configObj = new Configuration(config);
 const orm = await MikroORM.init(configObj);
 
 console.log(await orm.em.find(TestEntity, { id: 1 }));
+console.log(await orm.em.find(OtherTestEntity, { id: 1 }));
 
 // Cleanup
 orm.close();
