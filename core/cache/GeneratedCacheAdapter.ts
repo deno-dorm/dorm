@@ -1,5 +1,5 @@
-import type { CacheAdapter } from './CacheAdapter';
-import type { Dictionary } from '../typings';
+import type { CacheAdapter } from './CacheAdapter.ts';
+import type { Dictionary } from '../typings.ts';
 
 export class GeneratedCacheAdapter implements CacheAdapter {
 

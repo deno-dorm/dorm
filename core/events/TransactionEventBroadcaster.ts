@@ -1,8 +1,8 @@
-import type { Transaction } from '../connections';
-import type { EntityManager } from '../EntityManager';
-import type { TransactionEventType } from '../enums';
-import type { UnitOfWork } from '../unit-of-work';
-import type { EventManager } from './EventManager';
+import type { Transaction } from '../connections/index.ts';
+import type { EntityManager } from '../EntityManager.ts';
+import type { TransactionEventType } from '../enums.ts';
+import type { UnitOfWork } from '../unit-of-work/index.ts';
+import type { EventManager } from './EventManager.ts';
 
 export class TransactionEventBroadcaster {
 

@@ -52,18 +52,14 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
     orm.driver.getPlatform().init(orm);
 
     if (orm.config.get('connect')) {
-      console.log('connecting');
       await orm.connect();
-      console.log('connected end');
     }
 
     for (const extension of orm.config.get('extensions')) {
-      console.log('register extensions');
       extension.register(orm);
     }
 
     if (orm.config.get('connect') && orm.config.get('ensureIndexes')) {
-      console.log('ensure indexes');
       await orm.getSchemaGenerator().ensureIndexes();
     }
 

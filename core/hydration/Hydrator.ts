@@ -1,8 +1,8 @@
-import type { EntityData, EntityMetadata, EntityProperty, EntityValue, IHydrator } from '../typings';
-import type { EntityFactory } from '../entity/EntityFactory';
-import type { Platform } from '../platforms/Platform';
-import type { MetadataStorage } from '../metadata/MetadataStorage';
-import type { Configuration } from '../utils/Configuration';
+import type { EntityData, EntityMetadata, EntityProperty, EntityValue, IHydrator } from '../typings.ts';
+import type { EntityFactory } from '../entity/EntityFactory.ts';
+import type { Platform } from '../platforms/Platform.ts';
+import type { MetadataStorage } from '../metadata/MetadataStorage.ts';
+import type { Configuration } from '../utils/Configuration.ts';
 
 /* istanbul ignore next */
 export abstract class Hydrator implements IHydrator {

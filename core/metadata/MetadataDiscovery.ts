@@ -169,7 +169,6 @@ export class MetadataDiscovery {
 
     this.discoverReferences(refs);
     this.discoverMissingTargets();
-    console.log(this.discovered);
     this.validator.validateDiscovered(this.discovered, options);
 
     return this.discovered;

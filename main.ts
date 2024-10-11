@@ -24,7 +24,10 @@ const config = defineConfig({
     driver: PostgreSqlDriver,
     password: 'postgres',
     dbName: 'postgres',
-    entities: [TestEntity],
+    entities: [
+        TestEntity,
+        Test2Entity
+    ],
     allowGlobalContext: true,
 });
 
@@ -33,7 +36,6 @@ const config = defineConfig({
 const configObj = new Configuration(config);
 
 const orm = await MikroORM.init(configObj);
-console.log('connected from main');
 
 console.log(await orm.em.find(TestEntity, {id: 1}));
 

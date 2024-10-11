@@ -1,17 +1,17 @@
 import type {
   ConnectionType, EntityData, EntityMetadata, EntityProperty, FilterQuery, Primary, Dictionary, QBFilterQuery,
   IPrimaryKey, PopulateOptions, EntityDictionary, AutoPath, ObjectQuery, FilterObject, Populate,
-} from '../typings';
-import type { Connection, QueryResult, Transaction } from '../connections';
-import type { FlushMode, LockMode, QueryOrderMap, QueryFlag, LoadStrategy, PopulateHint, PopulatePath } from '../enums';
+} from '../typings.ts';
+import type { Connection, QueryResult, Transaction } from '../connections/index.ts';
+import type { FlushMode, LockMode, QueryOrderMap, QueryFlag, LoadStrategy, PopulateHint, PopulatePath } from '../enums.ts';
 import type { Platform } from '../platforms/mod.ts';
-import type { MetadataStorage } from '../metadata';
-import type { Collection } from '../entity/Collection';
-import type { EntityManager } from '../EntityManager';
-import type { DriverException } from '../exceptions';
-import type { Configuration } from '../utils/Configuration';
-import type { LoggingOptions, LogContext } from '../logging';
-import type { RawQueryFragment } from '../utils/RawQueryFragment';
+import type { MetadataStorage } from '../metadata/index.ts';
+import type { Collection } from '../entity/Collection.ts';
+import type { EntityManager } from '../EntityManager.ts';
+import type { DriverException } from '../exceptions.ts';
+import type { Configuration } from '../utils/Configuration.ts';
+import type { LoggingOptions, LogContext } from '../logging/index.ts';
+import type { RawQueryFragment } from '../utils/RawQueryFragment.ts';
 
 export const EntityManagerType = Symbol('EntityManagerType');
 

@@ -1,6 +1,6 @@
 import { inspect } from 'node:util';
 import type { Platform } from '../platforms/mod.ts';
-import type { Constructor, EntityMetadata, EntityProperty } from '../typings';
+import type { Constructor, EntityMetadata, EntityProperty } from '../typings.ts';
 
 export interface TransformContext {
   fromQuery?: boolean;

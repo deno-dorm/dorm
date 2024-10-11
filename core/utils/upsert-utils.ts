@@ -1,6 +1,6 @@
-import type { EntityData, EntityKey, EntityMetadata, EntityProperty } from '../typings';
-import type { UpsertOptions } from '../drivers/IDatabaseDriver';
-import type { RawQueryFragment } from '../utils/RawQueryFragment';
+import type { EntityData, EntityKey, EntityMetadata, EntityProperty } from '../typings.ts';
+import type { UpsertOptions } from '../drivers/IDatabaseDriver.ts';
+import type { RawQueryFragment } from '../utils/RawQueryFragment.ts';
 
 function expandEmbeddedProperties<T>(prop: EntityProperty<T>, key?: string): (keyof T)[] {
   if (prop.object) {

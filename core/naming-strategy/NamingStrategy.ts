@@ -1,4 +1,4 @@
-import type { ReferenceKind } from '../enums';
+import type { ReferenceKind } from '../enums.ts';
 
 export interface NamingStrategy {
 

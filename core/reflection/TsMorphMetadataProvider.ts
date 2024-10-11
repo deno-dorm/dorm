@@ -158,12 +158,9 @@ export class TsMorphMetadataProvider extends MetadataProvider {
       this.initSourceFiles();
     }
 
-    console.log(this.sources);
-
     let path = tsPath;
 
     path = Utils.stripRelativePath(path);
-    console.log('filter', this.sources, path)
     const source = this.sources.find(s => s.getFilePath().endsWith(path));
 
     if (!source && validate) {
@@ -214,8 +211,6 @@ export class TsMorphMetadataProvider extends MetadataProvider {
     /* istanbul ignore next */
     const paths = Object.values(MetadataStorage.getMetadata())
         .map(m => m.path);
-
-    console.log('result', this.project.addSourceFilesAtPaths(paths));
 
     const sources = [];
     for (const path of paths) {
