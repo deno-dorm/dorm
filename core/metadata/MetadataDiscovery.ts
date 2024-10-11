@@ -146,26 +146,11 @@ export class MetadataDiscovery {
     });
   }
 
-  private findEntities(sync = false): EntityMetadata[] | Promise<EntityMetadata[]> {
+  private findEntities(): EntityMetadata[] | Promise<EntityMetadata[]> {
     this.discovered.length = 0;
 
     const options = this.config.get('discovery');
-    const paths = this.config.get('entities').filter(item => Utils.isString(item)) as string[];
-    const refs = this.config.get('entities').filter(item => !Utils.isString(item)) as Constructor<AnyEntity>[];
-
-    if (paths.length > 0) {
-      if (sync || options.requireEntitiesArray) {
-        throw new Error(`[requireEntitiesArray] Explicit list of entities is required, please use the 'entities' option.`);
-      }
-
-      return this.discoverDirectories(paths).then(() => {
-        this.discoverReferences(refs);
-        this.discoverMissingTargets();
-        this.validator.validateDiscovered(this.discovered, options);
-
-        return this.discovered;
-      });
-    }
+    const refs = this.config.get('entities') as Constructor<AnyEntity>[];
 
     this.discoverReferences(refs);
     this.discoverMissingTargets();
