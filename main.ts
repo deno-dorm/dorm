@@ -1,12 +1,17 @@
-import {defineConfig, Configuration} from '@dorm/core';
-import {PostgreSqlDriver, Entity} from '@dorm/postgresql';
+import {defineConfig, Configuration, Entity, PrimaryKey} from '@dorm/core';
+import {PostgreSqlDriver} from '@dorm/postgresql';
+import {MikroORM} from "./postgresql/mod.ts";
 
 export function add(a: number, b: number): number {
     return a + b;
 }
 
-@Entity()
+@Entity({tableName: 'test'})
 class TestEntity {
+
+    @PrimaryKey()
+    id!: number;
+
 }
 
 const config = defineConfig({
@@ -17,7 +22,10 @@ const config = defineConfig({
 });
 
 
+
 const configObj = new Configuration(config);
+
+MikroORM.init(configObj)
 
 console.log(configObj.getAll());
 

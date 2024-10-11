@@ -6,6 +6,7 @@ import { Utils } from '../utils/Utils.ts';
 
 function createDecorator<T extends object>(options: PrimaryKeyOptions<T> | SerializedPrimaryKeyOptions<T>, serialized: boolean) {
   return function (target: AnyEntity, propertyName: string) {
+    console.log(...arguments);
     const meta = MetadataStorage.getMetadataFromDecorator(target.constructor as T);
     MetadataValidator.validateSingleDecorator(meta, propertyName, ReferenceKind.SCALAR);
     const k = serialized ? 'serializedPrimaryKey' as const : 'primary' as const;

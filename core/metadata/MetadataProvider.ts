@@ -27,7 +27,7 @@ export abstract class MetadataProvider {
   }
 
   useCache(): boolean {
-    return this.config.get('metadataCache').enabled ?? false;
+    return false;
   }
 
 }

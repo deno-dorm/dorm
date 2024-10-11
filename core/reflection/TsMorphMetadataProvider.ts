@@ -16,7 +16,7 @@ export class TsMorphMetadataProvider extends MetadataProvider {
   private sources!: SourceFile[];
 
   override useCache(): boolean {
-    return this.config.get('metadataCache').enabled ?? true;
+    return this.config.get('metadataCache')?.enabled ?? true;
   }
 
   loadEntityMetadata(meta: EntityMetadata, name: string): void {

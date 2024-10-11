@@ -1107,16 +1107,7 @@ export class Utils {
   }
 
   static getORMVersion(): string {
-    /* istanbul ignore next */
-    try {
-      // this works with ts-node during development (where we have `src` folder)
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require('../../package.json').version;
-    } catch {
-      // this works with node in production build (where we do not have the `src` folder)
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require('../package.json').version;
-    }
+    return "0.0.1";
   }
 
   /* istanbul ignore next */

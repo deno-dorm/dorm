@@ -57,10 +57,10 @@ export class MetadataDiscovery {
     this.schemaHelper = this.platform.getSchemaHelper();
   }
 
-  async discover(preferTsNode = true): Promise<MetadataStorage> {
+  async discover(): Promise<MetadataStorage> {
     const startTime = Date.now();
     this.logger.log('discovery', `ORM entity discovery started, using ${colors.cyan(this.metadataProvider.constructor.name)}`);
-    await this.findEntities(preferTsNode);
+    await this.findEntities();
 
     for (const meta of this.discovered) {
       await this.config.get('discovery').onMetadata?.(meta, this.platform);
@@ -77,25 +77,6 @@ export class MetadataDiscovery {
     return storage;
   }
 
-  discoverSync(preferTsNode = true): MetadataStorage {
-    const startTime = Date.now();
-    this.logger.log('discovery', `ORM entity discovery started, using ${colors.cyan(this.metadataProvider.constructor.name)} in sync mode`);
-    this.findEntities(preferTsNode, true);
-
-    for (const meta of this.discovered) {
-      this.config.get('discovery').onMetadata?.(meta, this.platform);
-    }
-
-    this.processDiscoveredEntities(this.discovered);
-
-    const diff = Date.now() - startTime;
-    this.logger.log('discovery', `- entity discovery finished, found ${colors.green('' + this.discovered.length)} entities, took ${colors.green(`${diff} ms`)}`);
-
-    const storage = this.mapDiscoveredEntities();
-    this.config.get('discovery').afterDiscovered?.(storage, this.platform);
-
-    return storage;
-  }
 
   private mapDiscoveredEntities(): MetadataStorage {
     const discovered = new MetadataStorage();
@@ -157,7 +138,6 @@ export class MetadataDiscovery {
     }
 
     discovered.forEach(meta => meta.sync(true));
-    const combinedCachePath = this.cache.combine?.();
 
     return discovered.map(meta => {
       meta = this.metadata.get(meta.className);
@@ -167,15 +147,12 @@ export class MetadataDiscovery {
     });
   }
 
-  private findEntities(preferTsNode: boolean, sync: true): EntityMetadata[];
-  private findEntities(preferTsNode: boolean, sync?: false): Promise<EntityMetadata[]>;
-  private findEntities(preferTsNode: boolean, sync = false): EntityMetadata[] | Promise<EntityMetadata[]> {
+  private findEntities(sync = false): EntityMetadata[] | Promise<EntityMetadata[]> {
     this.discovered.length = 0;
 
     const options = this.config.get('discovery');
-    const key = (preferTsNode && this.config.get('tsNode', Utils.detectTsNode()) && this.config.get('entitiesTs').length > 0) ? 'entitiesTs' : 'entities';
-    const paths = this.config.get(key).filter(item => Utils.isString(item)) as string[];
-    const refs = this.config.get(key).filter(item => !Utils.isString(item)) as Constructor<AnyEntity>[];
+    const paths = this.config.get('entities').filter(item => Utils.isString(item)) as string[];
+    const refs = this.config.get('entities').filter(item => !Utils.isString(item)) as Constructor<AnyEntity>[];
 
     if (paths.length > 0) {
       if (sync || options.requireEntitiesArray) {
@@ -193,6 +170,7 @@ export class MetadataDiscovery {
 
     this.discoverReferences(refs);
     this.discoverMissingTargets();
+    console.log(this.discovered);
     this.validator.validateDiscovered(this.discovered, options);
 
     return this.discovered;
@@ -370,16 +348,6 @@ export class MetadataDiscovery {
     const meta = schema.meta;
     const root = Utils.getRootEntity(this.metadata, meta);
     schema.meta.path = Utils.relativePath(path || meta.path, this.config.get('baseDir'));
-    const cache = meta.useCache && meta.path && this.cache.get(meta.className + extname(meta.path));
-
-    if (cache) {
-      this.logger.log('discovery', `- using cached metadata for entity ${colors.cyan(meta.className)}`);
-      this.metadataProvider.loadFromCache(meta, cache);
-      meta.root = root;
-      this.discovered.push(meta);
-
-      return;
-    }
 
     // infer default value from property initializer early, as the metadata provider might use some defaults, e.g. string for reflect-metadata
     for (const prop of meta.props) {
@@ -394,47 +362,7 @@ export class MetadataDiscovery {
       meta.collection = this.namingStrategy.classToTableName(entityName!);
     }
 
-    delete (meta as any).root; // to allow caching (as root can contain cycles)
-    this.saveToCache(meta);
-    meta.root = root;
     this.discovered.push(meta);
-  }
-
-  private saveToCache<T>(meta: EntityMetadata): void {
-    if (!meta.useCache) {
-      return;
-    }
-
-    const copy = Utils.copy(meta, false);
-
-    copy.props
-      .filter(prop => Type.isMappedType(prop.type))
-      .forEach(prop => {
-        (['type', 'customType'] as const)
-          .filter(k => Type.isMappedType(prop[k]))
-          .forEach(k => delete (prop as Dictionary)[k]);
-      });
-
-    copy.props
-      .filter(prop => prop.default)
-      .forEach(prop => {
-        const raw = RawQueryFragment.getKnownFragment(prop.default as string);
-
-        if (raw) {
-          prop.defaultRaw ??= this.platform.formatQuery(raw.sql, raw.params);
-          delete prop.default;
-        }
-      });
-
-    ([
-      'prototype', 'props', 'referencingProperties', 'propertyOrder', 'relations',
-      'concurrencyCheckKeys', 'checks',
-    ] as const).forEach(key => delete copy[key]);
-
-    // base entity without properties might not have path, but nothing to cache there
-    if (meta.path) {
-      this.cache.set(meta.className + extname(meta.path), copy, meta.path);
-    }
   }
 
   private initNullability(prop: EntityProperty): void {

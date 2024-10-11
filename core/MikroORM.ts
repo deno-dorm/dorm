@@ -29,7 +29,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
       options = (options as any as Configuration).getAll() as Options<D, EM>;
     }
 
-    ConfigurationLoader.registerDotenv(options);
     const coreVersion = await ConfigurationLoader.checkPackageVersion();
     const env = ConfigurationLoader.loadEnvironmentVars<D>();
 
@@ -38,7 +37,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
     }
 
     options = Utils.mergeConfig(options, env);
-    await ConfigurationLoader.commonJSCompat(options!);
 
     if ('DRIVER' in this && !options!.driver) {
       (options as Options).driver = (this as unknown as { DRIVER: Constructor<IDatabaseDriver> }).DRIVER;
@@ -82,7 +80,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
       options = (options as any as Configuration).getAll() as Options<D, EM>;
     }
 
-    ConfigurationLoader.registerDotenv(options);
     const env = ConfigurationLoader.loadEnvironmentVars<D>();
     options = Utils.merge(options, env);
 
@@ -111,14 +108,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
       this.config = options;
     } else {
       this.config = new Configuration(options);
-    }
-
-    const discovery = this.config.get('discovery');
-
-    if (discovery.disableDynamicFileAccess) {
-      this.config.set('metadataProvider', ReflectMetadataProvider);
-      this.config.set('metadataCache', { adapter: NullCacheAdapter });
-      discovery.requireEntitiesArray = true;
     }
 
     this.driver = this.config.getDriver();
@@ -212,12 +201,12 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
   }
 
   async discoverEntities(): Promise<void> {
-    this.metadata = await this.discovery.discover(this.config.get('tsNode'));
+    this.metadata = await this.discovery.discover();
     this.createEntityManager();
   }
 
   discoverEntitiesSync(): void {
-    this.metadata = this.discovery.discoverSync(this.config.get('tsNode'));
+    this.metadata = this.discovery.discoverSync();
     this.createEntityManager();
   }
 
