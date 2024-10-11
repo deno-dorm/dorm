@@ -31,10 +31,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
     const coreVersion = await ConfigurationLoader.checkPackageVersion();
     const env = ConfigurationLoader.loadEnvironmentVars<D>();
 
-    if (!options) {
-      options = (await ConfigurationLoader.getConfiguration<D, EM>()).getAll();
-    }
-
     options = Utils.mergeConfig(options, env);
 
     if ('DRIVER' in this && !options!.driver) {
@@ -61,42 +57,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
 
     if (orm.config.get('connect') && orm.config.get('ensureIndexes')) {
       await orm.getSchemaGenerator().ensureIndexes();
-    }
-
-    return orm;
-  }
-
-  /**
-   * Synchronous variant of the `init` method with some limitations:
-   * - database connection will be established when you first interact with the database (or you can use `orm.connect()` explicitly)
-   * - no loading of the `config` file, `options` parameter is mandatory
-   * - no support for folder based discovery
-   * - no check for mismatched package versions
-   */
-  static initSync<D extends IDatabaseDriver = IDatabaseDriver, EM extends EntityManager = D[typeof EntityManagerType] & EntityManager>(options: Options<D, EM>): MikroORM<D, EM> {
-    // for back-compatibility only, used by @mikro-orm/nestjs v5
-    if (options as any instanceof Configuration) {
-      options = (options as any as Configuration).getAll() as Options<D, EM>;
-    }
-
-    const env = ConfigurationLoader.loadEnvironmentVars<D>();
-    options = Utils.merge(options, env);
-
-    if ('DRIVER' in this && !options!.driver) {
-      (options as Options).driver = (this as unknown as { DRIVER: Constructor<IDatabaseDriver> }).DRIVER;
-    }
-
-    const orm = new MikroORM(options!);
-
-    // we need to allow global context here as we are not in a scope of requests yet
-    const allowGlobalContext = orm.config.get('allowGlobalContext');
-    orm.config.set('allowGlobalContext', true);
-    orm.discoverEntitiesSync();
-    orm.config.set('allowGlobalContext', allowGlobalContext);
-    orm.driver.getPlatform().init(orm);
-
-    for (const extension of orm.config.get('extensions')) {
-      extension.register(orm);
     }
 
     return orm;
@@ -201,11 +161,6 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
 
   async discoverEntities(): Promise<void> {
     this.metadata = await this.discovery.discover();
-    this.createEntityManager();
-  }
-
-  discoverEntitiesSync(): void {
-    this.metadata = this.discovery.discoverSync();
     this.createEntityManager();
   }
 

@@ -14,8 +14,6 @@ export function Embedded<T extends object>(type: EmbeddedOptions | (() => AnyEnt
       kind: ReferenceKind.EMBEDDED,
       ...options,
     } as EntityProperty;
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

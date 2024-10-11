@@ -11,8 +11,6 @@ export function Check<T>(options: CheckOptions<T>) {
     if (!propertyName) {
       return target;
     }
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

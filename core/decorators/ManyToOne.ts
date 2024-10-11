@@ -14,8 +14,6 @@ export function ManyToOne<T extends object, O>(
     MetadataValidator.validateSingleDecorator(meta, propertyName, ReferenceKind.MANY_TO_ONE);
     const property = { name: propertyName, kind: ReferenceKind.MANY_TO_ONE } as EntityProperty;
     meta.properties[propertyName as EntityKey<T>] = Object.assign(meta.properties[propertyName as EntityKey<T>] ?? {}, property, options);
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

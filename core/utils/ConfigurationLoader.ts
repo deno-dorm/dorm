@@ -10,73 +10,14 @@ import {Utils} from './Utils.ts';
  * @internal
  */
 export class ConfigurationLoader {
-
-  static async getConfiguration<D extends IDatabaseDriver = IDatabaseDriver, EM extends D[typeof EntityManagerType] & EntityManager = EntityManager>(validate = true, options: Partial<Options> = {}): Promise<Configuration<D, EM>> {
-    const paths = this.getConfigPaths();
-    const env = this.loadEnvironmentVars();
-
-    for (let path of paths) {
-      path = Utils.absolutePath(path);
-      path = Utils.normalizePath(path);
-
-      if (existsSync(path)) {
-        const config = await Utils.dynamicImport(path);
-        /* istanbul ignore next */
-        let tmp = config.default ?? config;
-
-        if (tmp instanceof Function) {
-          tmp = tmp();
-        }
-
-        if (tmp instanceof Promise) {
-          tmp = await tmp;
-        }
-
-        const esmConfigOptions = this.isESM() ? { entityGenerator: { esmImport: true } } : {};
-
-        return new Configuration(Utils.mergeConfig({}, esmConfigOptions, tmp, options, env), validate);
-      }
-    }
-
-    if (Utils.hasObjectKeys(env)) {
-      return new Configuration(Utils.mergeConfig({}, options, env), validate);
-    }
-
-    throw new Error(`MikroORM config file not found in ['${paths.join(`', '`)}']`);
-  }
-
   static getSettings(): Settings {
-    const settings = {  };
+    const settings: Settings = {
+      verbose: false,
+    };
     const bool = (v: string) => ['true', 't', '1'].includes(v.toLowerCase());
-    settings.verbose = process.env.MIKRO_ORM_CLI_VERBOSE != null ? bool(process.env.MIKRO_ORM_CLI_VERBOSE) : settings.verbose;
+    settings.verbose = Deno.env.get('MIKRO_ORM_CLI_VERBOSE') ? bool(Deno.env.get('MIKRO_ORM_CLI_VERBOSE')!) : settings.verbose;
 
     return settings;
-  }
-
-  static getConfigPaths(): string[] {
-    const options = Utils.parseArgs();
-    const configArgName = process.env.MIKRO_ORM_CONFIG_ARG_NAME ?? 'config';
-
-    if (options[configArgName]) {
-      return [options[configArgName]];
-    }
-
-    const paths: string[] = [];
-    const settings = ConfigurationLoader.getSettings();
-
-    if (process.env.MIKRO_ORM_CLI_CONFIG) {
-      paths.push(process.env.MIKRO_ORM_CLI_CONFIG);
-    }
-
-    paths.push(...(settings.configPaths || []));
-    paths.push('./mikro-orm.config.js');
-
-
-    return Utils.unique(paths).filter(p => p.endsWith('.js'));
-  }
-
-  static isESM(): boolean {
-    return true;
   }
 
   static loadEnvironmentVars<D extends IDatabaseDriver>(): Partial<Options<D>> {

@@ -2,7 +2,6 @@ import { MetadataStorage, MetadataValidator } from '../metadata/index.ts';
 import { ReferenceKind } from '../enums.ts';
 import type { PropertyOptions } from './Property.ts';
 import type { AnyEntity, EntityKey, EntityProperty } from '../typings.ts';
-import { Utils } from '../utils/Utils.ts';
 
 function createDecorator<T extends object>(options: PrimaryKeyOptions<T> | SerializedPrimaryKeyOptions<T>, serialized: boolean) {
   return function (target: AnyEntity, propertyName: string) {
@@ -11,8 +10,6 @@ function createDecorator<T extends object>(options: PrimaryKeyOptions<T> | Seria
     const k = serialized ? 'serializedPrimaryKey' as const : 'primary' as const;
     options[k] = true;
     meta.properties[propertyName as EntityKey<T>] = { name: propertyName, kind: ReferenceKind.SCALAR, ...options } as EntityProperty<T>;
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

@@ -151,7 +151,6 @@ export class Configuration<D extends IDatabaseDriver = IDatabaseDriver, EM exten
       fileName: (className: string) => className,
     },
     preferReadReplicas: true,
-    dynamicImportProvider: /* istanbul ignore next */ (id: string) => import(id),
   } satisfies MikroORMOptions;
 
   private readonly options: MikroORMOptions<D, EM>;
@@ -162,9 +161,6 @@ export class Configuration<D extends IDatabaseDriver = IDatabaseDriver, EM exten
   private readonly extensions = new Map<string, () => unknown>();
 
   constructor(options: Options, validate = true) {
-    if (options.dynamicImportProvider) {
-      Utils.setDynamicImportProvider(options.dynamicImportProvider);
-    }
 
     this.options = Utils.mergeConfig({}, Configuration.DEFAULTS, options);
     this.options.baseDir = Utils.absolutePath(this.options.baseDir);
@@ -604,7 +600,6 @@ export interface MikroORMOptions<D extends IDatabaseDriver = IDatabaseDriver, EM
   };
   seeder: SeederOptions;
   preferReadReplicas: boolean;
-  dynamicImportProvider: (id: string) => Promise<unknown>;
 }
 
 export type Options<D extends IDatabaseDriver = IDatabaseDriver, EM extends D[typeof EntityManagerType] & EntityManager = D[typeof EntityManagerType] & EntityManager> =

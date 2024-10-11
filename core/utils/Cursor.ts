@@ -7,6 +7,7 @@ import { Reference } from '../entity/Reference.ts';
 import { helper } from '../entity/wrap.ts';
 import { RawQueryFragment } from '../utils/RawQueryFragment.ts';
 import { CursorError } from '../errors.ts';
+import {Buffer} from 'node:buffer'
 
 /**
  * As an alternative to the offset-based pagination with `limit` and `offset`, we can paginate based on a cursor.

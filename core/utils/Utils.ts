@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
-import { type GlobbyOptions, globby} from 'globby';
+import { type GlobbyOptions} from 'globby';
+import globby from 'globby';
 import { extname, isAbsolute, join, normalize, relative, resolve } from 'node:path';
 import { platform } from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -23,6 +24,7 @@ import type { Collection } from '../entity/Collection.ts';
 import type { Platform } from '../platforms/mod.ts';
 import { helper } from '../entity/wrap.ts';
 import type { ScalarReference } from '../entity/Reference.ts';
+import { Buffer } from "node:buffer";
 
 export const ObjectBindingPattern = Symbol('ObjectBindingPattern');
 
@@ -45,6 +47,8 @@ function compareConstructors(a: any, b: any) {
 function isRawSql(value: unknown): value is { sql: string; params: unknown[]; use: () => void } {
   return typeof value === 'object' && !!value && '__raw' in value;
 }
+
+const globalThis: Dictionary = {};
 
 export function compareObjects(a: any, b: any) {
   // eslint-disable-next-line eqeqeq
@@ -186,9 +190,6 @@ export function parseJsonSafe<T = unknown>(value: unknown): T {
 export class Utils {
 
   static readonly PK_SEPARATOR = '~~~';
-
-  /* istanbul ignore next */
-  static dynamicImportProvider = (id: string) => import(id);
 
   /**
    * Checks if the argument is not undefined
@@ -1084,26 +1085,7 @@ export class Utils {
   }
 
   static async dynamicImport<T = any>(id: string): Promise<T> {
-    /* istanbul ignore next */
-    if (platform() === 'win32') {
-      try {
-        id = pathToFileURL(id).toString();
-      } catch {
-        // ignore
-      }
-      // If the extension is not registered, we need to fall back to a file path.
-      if (require.extensions && !require.extensions[extname(id)]) {
-        id = fileURLToPath(id);
-      }
-    }
-
-    /* istanbul ignore next */
-    return this.dynamicImportProvider(id);
-  }
-
-  /* istanbul ignore next */
-  static setDynamicImportProvider(provider: (id: string) => Promise<unknown>): void {
-    this.dynamicImportProvider = provider;
+    throw new Error('Dynamic import not supported')
   }
 
   static getORMVersion(): string {
@@ -1147,15 +1129,6 @@ export class Utils {
       }
 
       throw e;
-    }
-  }
-
-  /**
-   * @see https://github.com/mikro-orm/mikro-orm/issues/840
-   */
-  static propertyDecoratorReturnValue(): any {
-    if (process.env.BABEL_DECORATORS_COMPAT) {
-      return {};
     }
   }
 
@@ -1278,7 +1251,7 @@ export class Utils {
   static parseArgs<T extends Dictionary = Dictionary>(): T {
     let lastKey: string | undefined;
 
-    return process.argv.slice(2).reduce((args, arg) => {
+    return Deno.args.reduce((args, arg) => {
       if (arg.includes('=')) {
         const [key, value] = arg.split('=');
         args[key.substring(2)] = value;

@@ -6,7 +6,7 @@
     "@std/fs": "jsr:@std/fs@^1.0.4",
     "@std/io": "jsr:@std/io@^0.225.0",
     "dataloader": "npm:dataloader@^2.2.2",
-    "globby": "npm:globby@^14.0.2",
+    "globby": "npm:globby@^11.1.0",
     "esprima": "npm:esprima@^4.0.1"
   },
   "exports": "./mod.ts"

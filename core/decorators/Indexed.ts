@@ -1,6 +1,5 @@
 import { MetadataStorage } from '../metadata/index.ts';
 import type { AnyEntity, Dictionary } from '../typings.ts';
-import { Utils } from '../utils/Utils.ts';
 import type { DeferMode } from '../enums.ts';
 
 function createDecorator<T>(options: IndexOptions<T> | UniqueOptions<T>, unique: boolean) {
@@ -13,8 +12,6 @@ function createDecorator<T>(options: IndexOptions<T> | UniqueOptions<T>, unique:
     if (!propertyName) {
       return target;
     }
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

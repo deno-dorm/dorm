@@ -1,5 +1,5 @@
 import { basename } from 'node:path';
-import {globby} from 'globby';
+import globby from 'globby';
 
 import {
   type AnyEntity,

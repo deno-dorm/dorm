@@ -1,6 +1,7 @@
 import { Type } from './Type.ts';
 import type { Platform } from '../platforms/mod.ts';
 import type { EntityProperty } from '../typings.ts';
+import { Buffer } from "node:buffer";
 
 export class Uint8ArrayType extends Type<Uint8Array | null> {
 

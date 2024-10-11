@@ -45,8 +45,6 @@ export function Property<T extends object>(options: PropertyOptions<T> = {}) {
     }
 
     meta.properties[prop.name] = prop;
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 

@@ -1,7 +1,6 @@
 import { MetadataStorage } from '../metadata/index.ts';
 import { ReferenceKind } from '../enums.ts';
 import type { EntityKey, EntityProperty, AnyEntity } from '../typings.ts';
-import { Utils } from '../utils/Utils.ts';
 import type { PropertyOptions } from './Property.ts';
 
 export function Formula<T extends object>(formula: string | ((alias: string) => string), options: FormulaOptions<T> = {}) {
@@ -13,8 +12,6 @@ export function Formula<T extends object>(formula: string | ((alias: string) => 
       formula,
       ...options,
     } as EntityProperty<T>;
-
-    return Utils.propertyDecoratorReturnValue();
   };
 }
 
