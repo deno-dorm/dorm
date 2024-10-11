@@ -1,10 +1,7 @@
 import {defineConfig, Configuration, Entity, PrimaryKey} from '@dorm/core';
 import {PostgreSqlDriver} from '@dorm/postgresql';
 import {MikroORM} from "./postgresql/mod.ts";
-
-export function add(a: number, b: number): number {
-    return a + b;
-}
+import {Property} from "./core/decorators/index.ts";
 
 @Entity({tableName: 'test'})
 class TestEntity {
@@ -12,24 +9,29 @@ class TestEntity {
     @PrimaryKey()
     id!: number;
 
+
+    @Property()
+    name!: string;
+
 }
 
 const config = defineConfig({
     debug: true,
     driver: PostgreSqlDriver,
-    dbName: 'test',
-    entities: [TestEntity]
+    password: 'postgres',
+    dbName: 'postgres',
+    entities: [TestEntity],
+    allowGlobalContext: true,
 });
 
 
 
 const configObj = new Configuration(config);
 
-MikroORM.init(configObj)
+const orm = await MikroORM.init(configObj);
+console.log('connected from main');
 
-console.log(configObj.getAll());
+console.log(await orm.em.find(TestEntity, {id: 1}));
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-    console.log("Add 2 + 3 =", add(2, 3));
-}
+// Cleanup
+orm.close();

@@ -1,4 +1,4 @@
-import { basename, extname } from 'node:path';
+import { basename } from 'node:path';
 import {globby} from 'globby';
 
 import {
@@ -15,7 +15,6 @@ import type { Configuration } from '../utils/Configuration.ts';
 import { MetadataValidator } from './MetadataValidator.ts';
 import type { MetadataProvider } from './MetadataProvider.ts';
 import type { NamingStrategy } from '../naming-strategy/NamingStrategy.ts';
-import type { SyncCacheAdapter } from '../cache/CacheAdapter.ts';
 import { MetadataStorage } from './MetadataStorage.ts';
 import { EntitySchema } from './EntitySchema.ts';
 import { Cascade, type EventType, ReferenceKind } from '../enums.ts';

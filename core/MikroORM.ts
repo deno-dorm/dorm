@@ -2,7 +2,6 @@ import type { EntityManagerType, IDatabaseDriver } from './drivers/index.ts';
 import { MetadataDiscovery, MetadataStorage, MetadataValidator, type EntitySchema } from './metadata/index.ts';
 import { Configuration, ConfigurationLoader, Utils, type Options } from './utils/index.ts';
 import { colors, type Logger } from './logging/index.ts';
-import { NullCacheAdapter } from './cache/index.ts';
 import type { EntityManager } from './EntityManager.ts';
 import type { Constructor, EntityMetadata, EntityName, IEntityGenerator, IMigrator, ISeedManager } from './typings.ts';
 
@@ -53,14 +52,18 @@ export class MikroORM<D extends IDatabaseDriver = IDatabaseDriver, EM extends En
     orm.driver.getPlatform().init(orm);
 
     if (orm.config.get('connect')) {
+      console.log('connecting');
       await orm.connect();
+      console.log('connected end');
     }
 
     for (const extension of orm.config.get('extensions')) {
+      console.log('register extensions');
       extension.register(orm);
     }
 
     if (orm.config.get('connect') && orm.config.get('ensureIndexes')) {
+      console.log('ensure indexes');
       await orm.getSchemaGenerator().ensureIndexes();
     }
 
