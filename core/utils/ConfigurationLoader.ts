@@ -1,9 +1,7 @@
-import {existsSync} from '@std/fs';
-import type {EntityManager} from '../EntityManager.ts';
-import type {EntityManagerType, IDatabaseDriver} from '../drivers/index.ts';
+import type {IDatabaseDriver} from '../drivers/index.ts';
 import {colors} from '../logging/colors.ts';
 import type {Dictionary} from '../typings.ts';
-import {Configuration, type Options} from './Configuration.ts';
+import type {Options} from './Configuration.ts';
 import {Utils} from './Utils.ts';
 
 /**

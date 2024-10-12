@@ -1,6 +1,7 @@
 import {Configuration, defineConfig, Entity, PrimaryKey, MikroORM, Property} from '@dorm/core';
 import {PostgreSqlDriver} from '@dorm/postgresql';
-import {OtherTestEntity} from "./entity/other-test.entity.ts";
+import {UserEntity} from "./entity/user.entity.ts";
+import {SessionEntity} from "./entity/session.entity.ts";
 
 @Entity({ tableName: "test" })
 class TestEntity {
@@ -17,8 +18,9 @@ const config = defineConfig({
     password: "postgres",
     dbName: "postgres",
     entities: [
-        OtherTestEntity,
+        UserEntity,
         TestEntity,
+        SessionEntity,
     ],
     allowGlobalContext: true,
 });
@@ -27,8 +29,11 @@ const configObj = new Configuration(config);
 
 const orm = await MikroORM.init(configObj);
 
-console.log(await orm.em.find(TestEntity, { id: 1 }));
-console.log(await orm.em.find(OtherTestEntity, { id: 1 }));
+const user = await orm.em.findOne(UserEntity, { id: 1 }, {
+    populate: ['sessions']
+});
+
+console.log(user);
 
 // Cleanup
 orm.close();
