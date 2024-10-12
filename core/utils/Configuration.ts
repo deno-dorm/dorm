@@ -436,7 +436,7 @@ export class Configuration<D extends IDatabaseDriver = IDatabaseDriver, EM exten
 /**
  * Type helper to make it easier to use `mikro-orm.config.js`.
  */
-export function defineConfig<D extends IDatabaseDriver>(options: Options<D>) {
+export function defineConfig<D extends IDatabaseDriver>(options: Options<D>): Options<D> {
   return options;
 }
 
