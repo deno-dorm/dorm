@@ -10,11 +10,11 @@ import {
   type EntityProperty,
   type Logger,
 } from '@dorm/core';
-import type { Column, ForeignKey, IndexDef, SchemaDifference, TableDifference } from '../typings';
-import type { DatabaseSchema } from './DatabaseSchema';
-import type { DatabaseTable } from './DatabaseTable';
-import type { AbstractSqlPlatform } from '../AbstractSqlPlatform';
-import type { SchemaHelper } from './SchemaHelper';
+import type { Column, ForeignKey, IndexDef, SchemaDifference, TableDifference } from '../typings.ts';
+import type { DatabaseSchema } from './DatabaseSchema.ts';
+import type { DatabaseTable } from './DatabaseTable.ts';
+import type { AbstractSqlPlatform } from '../AbstractSqlPlatform.ts';
+import type { SchemaHelper } from './SchemaHelper.ts';
 
 /**
  * Compares two Schemas and return an instance of SchemaDifference.

@@ -7,11 +7,11 @@ import {
   type Dictionary,
 } from '@dorm/core';
 import type { Knex } from 'knex';
-import type { AbstractSqlConnection } from '../AbstractSqlConnection';
-import type { AbstractSqlPlatform } from '../AbstractSqlPlatform';
-import type { CheckDef, Column, ForeignKey, IndexDef, Table, TableDifference } from '../typings';
-import type { DatabaseSchema } from './DatabaseSchema';
-import type { DatabaseTable } from './DatabaseTable';
+import type { AbstractSqlConnection } from '../AbstractSqlConnection.ts';
+import type { AbstractSqlPlatform } from '../AbstractSqlPlatform.ts';
+import type { CheckDef, Column, ForeignKey, IndexDef, Table, TableDifference } from '../typings.ts';
+import type { DatabaseSchema } from './DatabaseSchema.ts';
+import type { DatabaseTable } from './DatabaseTable.ts';
 
 export abstract class SchemaHelper {
 

@@ -14,6 +14,7 @@ import { AbstractSqlPlatform, type IndexDef } from '@dorm/knex';
 import { PostgreSqlSchemaHelper } from './PostgreSqlSchemaHelper.ts';
 import { PostgreSqlExceptionConverter } from './PostgreSqlExceptionConverter.ts';
 import { FullTextType } from './types/FullTextType.ts';
+import {Buffer} from 'node:buffer';
 
 export class PostgreSqlPlatform extends AbstractSqlPlatform {
 

@@ -16,9 +16,9 @@ import {
   UnknownType,
   Utils,
 } from '@dorm/core';
-import type { SchemaHelper } from './SchemaHelper';
-import type { CheckDef, Column, ForeignKey, IndexDef } from '../typings';
-import type { AbstractSqlPlatform } from '../AbstractSqlPlatform';
+import type { SchemaHelper } from './SchemaHelper.ts';
+import type { CheckDef, Column, ForeignKey, IndexDef } from '../typings.ts';
+import type { AbstractSqlPlatform } from '../AbstractSqlPlatform.ts';
 
 /**
  * @internal

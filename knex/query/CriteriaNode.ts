@@ -8,7 +8,7 @@ import {
   ReferenceKind,
   Utils,
 } from '@dorm/core';
-import type { ICriteriaNode, ICriteriaNodeProcessOptions, IQueryBuilder } from '../typings';
+import type { ICriteriaNode, ICriteriaNodeProcessOptions, IQueryBuilder } from '../typings.ts';
 
 /**
  * Helper for working with deeply nested where/orderBy/having criteria. Uses composite pattern to build tree from the payload.

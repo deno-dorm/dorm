@@ -13,8 +13,8 @@ import type {
   EntityName,
 } from '@dorm/core';
 import type { Knex } from 'knex';
-import type { JoinType, QueryType } from './query/enums';
-import type { DatabaseSchema, DatabaseTable } from './schema';
+import type { JoinType, QueryType } from './query/enums.ts';
+import type { DatabaseSchema, DatabaseTable } from './schema/index.ts';
 
 export interface Table {
   table_name: string;
