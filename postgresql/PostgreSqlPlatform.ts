@@ -15,7 +15,7 @@ import { PostgreSqlSchemaHelper } from './PostgreSqlSchemaHelper.ts';
 import { PostgreSqlExceptionConverter } from './PostgreSqlExceptionConverter.ts';
 import { FullTextType } from './types/FullTextType.ts';
 import {Buffer} from 'node:buffer';
-import {Client} from 'pg';
+import pg from 'pg';
 
 export class PostgreSqlPlatform extends AbstractSqlPlatform {
 
@@ -327,7 +327,7 @@ export class PostgreSqlPlatform extends AbstractSqlPlatform {
   override escape(value: any): string {
     if (typeof value === 'string') {
       // TODO: Figure out this
-      return Client.prototype.escapeLiteral(value);
+      return pg.Client.prototype.escapeLiteral(value);
     }
 
     if (value instanceof Date) {
