@@ -1019,13 +1019,6 @@ export class Utils {
     return false;
   }
 
-  static getGlobalStorage(namespace: string): Dictionary {
-    const key = `mikro-orm-${namespace}` as keyof typeof globalThis;
-    (globalThis as Dictionary)[key] = globalThis[key] || {};
-
-    return globalThis[key];
-  }
-
   /**
    * Require a module from a specific location
    * @param id The module to require
