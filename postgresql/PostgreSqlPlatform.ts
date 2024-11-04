@@ -15,6 +15,7 @@ import { PostgreSqlSchemaHelper } from './PostgreSqlSchemaHelper.ts';
 import { PostgreSqlExceptionConverter } from './PostgreSqlExceptionConverter.ts';
 import { FullTextType } from './types/FullTextType.ts';
 import {Buffer} from 'node:buffer';
+import {Client} from 'pg';
 
 export class PostgreSqlPlatform extends AbstractSqlPlatform {
 
@@ -468,7 +469,7 @@ export class PostgreSqlPlatform extends AbstractSqlPlatform {
       return new Date(value);
     }
 
-    const parsed = parseDate(value);
+    const parsed = parseDate.default(value);
 
     /* istanbul ignore next */
     if (parsed === null) {

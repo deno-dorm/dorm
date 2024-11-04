@@ -23,13 +23,13 @@ export class PostgreSqlConnection extends AbstractSqlConnection {
       1114, // timestamp
       1184, // timestamptz
       1186, // interval
-    ].forEach(oid => types.setTypeParser(oid, str => str));
+    ].forEach(oid => types.setTypeParser(oid, (str: string) => str));
     [
       1182, // date[]
       1115, // timestamp[]
       1185, // timestamptz[]
       1187, // interval[]
-    ].forEach(oid => types.setTypeParser(oid, str => array.parse(str)));
+    ].forEach(oid => types.setTypeParser(oid, (str: string) => array.parse(str)));
     ret.types = types as any;
 
     return ret;

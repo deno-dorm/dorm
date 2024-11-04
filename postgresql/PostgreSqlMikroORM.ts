@@ -23,13 +23,6 @@ export class PostgreSqlMikroORM<EM extends EntityManager = SqlEntityManager> ext
     return super.init(options);
   }
 
-  /**
-   * @inheritDoc
-   */
-  static override initSync<D extends IDatabaseDriver = PostgreSqlDriver, EM extends EntityManager = D[typeof EntityManagerType] & EntityManager>(options: Options<D, EM>): MikroORM<D, EM> {
-    return super.initSync(options);
-  }
-
 }
 
 export type PostgreSqlOptions = Options<PostgreSqlDriver>;

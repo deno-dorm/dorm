@@ -4,7 +4,7 @@
   "imports": {
     "pg": "npm:pg",
     "postgres-array": "npm:postgres-array",
-    "postgres-date": "npm:postgres-date",
+    "postgres-date": "npm:postgres-date@2.1.0",
     "postgres-interval": "npm:postgres-interval"
   },
   "exports": "./mod.ts"
