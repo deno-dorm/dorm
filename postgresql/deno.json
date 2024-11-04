@@ -2,10 +2,10 @@
   "name": "@dorm/postgresql",
   "version": "0.0.1",
   "imports": {
-    "pg": "npm:pg",
-    "postgres-array": "npm:postgres-array",
+    "pg": "npm:pg@8.13.0",
+    "postgres-array": "npm:postgres-array@3.0.2",
     "postgres-date": "npm:postgres-date@2.1.0",
-    "postgres-interval": "npm:postgres-interval"
+    "postgres-interval": "npm:postgres-interval@4.0.2"
   },
   "exports": "./mod.ts"
 }
